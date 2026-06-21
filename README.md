@@ -1,6 +1,6 @@
 # idepus
 
-AI IDE — Tauri + Rust + TypeScript + CodeMirror 6. **v1.0.0**
+AI IDE — Tauri + Rust + TypeScript + CodeMirror 6. 
 
 ## Linux one-shot setup
 
@@ -92,7 +92,7 @@ If you prefer not to use `setup.sh`:
 - dylib plugins (`@gitignore` example)
 - Criterion benchmarks + perf scripts
 
-## Integrated terminal (Faz 07)
+## Integrated terminal (P7)
 
 - **Toggle:** `Ctrl+`` opens the terminal panel at the bottom of the editor.
 - **Session:** A PTY starts automatically when you open a workspace (cwd = workspace root).
@@ -100,7 +100,7 @@ If you prefer not to use `setup.sh`:
 
 Requires Aicery running with `idepus-plugin` (`./scripts/aicery-up.sh`).
 
-## Shadow workspace (Faz 08)
+## Shadow workspace (P8)
 
 Before a patch reaches diff review, idepus tests it in a **shadow copy** of the workspace (symlink tree under `/tmp/idepus-shadow/`).
 
@@ -108,7 +108,7 @@ Before a patch reaches diff review, idepus tests it in a **shadow copy** of the 
 - **Agent graph:** `shadow_verify` tool step appears in the task tracker before HITL.
 - **Settings:** Configure shadow test command, args, and timeout (default: auto-detect, 120s).
 
-## Chat & multi-file agent (Faz 09)
+## Chat & multi-file agent (P9)
 
 - **Toggle:** `Cmd+I` opens the chat panel (right rail).
 - **Agent:** Chat uses `multi-file-editor` — plans and patches multiple files with per-file HITL diff review.
@@ -125,7 +125,7 @@ npm install
 npm run tauri dev
 ```
 
-## Aicery agent runtime (Faz 06)
+## Aicery agent runtime (P6)
 
 1. Clone [Aicery](https://github.com/mrkkyatilla/aicery) beside this repo (`../aicery`).
 
