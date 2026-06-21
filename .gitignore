@@ -33,3 +33,6 @@ __pycache__/
 # Local RAG index (per workspace)
 .idepus/
 .tools/
+
+# Downloaded embedding model cache (downloaded at runtime, ~90 MB)
+src-tauri/.fastembed_cache/
