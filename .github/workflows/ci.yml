@@ -1,0 +1,141 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  rust:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: fmt
+        run: cargo fmt --all -- --check
+      - name: clippy
+        run: cargo clippy --workspace -- -D warnings
+      - name: test
+        run: cargo test --workspace
+      - name: bench compile gate
+        run: cargo bench --workspace --no-run
+
+  frontend:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/aicery
+          path: aicery
+          ref: main
+        continue-on-error: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - name: Link Aicery SDK
+        run: |
+          if [[ -d aicery/sdk/typescript ]]; then
+            npm install --no-save file:../aicery/sdk/typescript
+          else
+            echo "Aicery SDK not available — installing stub"
+            mkdir -p ../aicery/sdk/typescript
+            printf '%s\n' \
+              '{"name":"@aicery/sdk","version":"0.0.0","type":"module","main":"index.js"}' \
+              > ../aicery/sdk/typescript/package.json
+            printf '%s\n' \
+              'export type Run = { id: string; status: string; agent_id: string; input_text?: string | null; output_text?: string | null; error_code?: string | null; error_message?: string | null; };' \
+              'export type SseEvent = { event: string; data: Record<string, unknown> };' \
+              > ../aicery/sdk/typescript/index.js
+          fi
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  aicery:
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: aicery
+          POSTGRES_PASSWORD: aicery
+          POSTGRES_DB: aicery
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U aicery"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/aicery
+          path: aicery
+          ref: main
+      - name: Start Aicery
+        run: ./scripts/aicery-up.sh
+        env:
+          AICERY_ROOT: ${{ github.workspace }}/aicery
+          USE_MOCK_PROVIDER: "true"
+          API_KEY: dev
+      - name: Smoke test
+        run: ./scripts/aicery-smoke.sh
+        env:
+          AICERY_RUNTIME_URL: http://localhost:8000
+          API_KEY: dev
+
+  aicery-drift:
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: aicery
+          POSTGRES_PASSWORD: aicery
+          POSTGRES_DB: aicery
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U aicery"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/aicery
+          path: aicery
+          ref: main
+      - name: Drift check
+        run: ./scripts/drift-check.sh
+        env:
+          AICERY_ROOT: ${{ github.workspace }}/aicery
+          USE_MOCK_PROVIDER: "true"
+          API_KEY: dev

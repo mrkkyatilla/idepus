@@ -1,0 +1,13 @@
+[package]
+name = "idepus-indexer"
+version = "0.1.0"
+edition = "2021"
+description = "Codebase search types and structural chunk search for idepus"
+
+[features]
+default = ["structural-search"]
+structural-search = []
+semantic-index = []
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }

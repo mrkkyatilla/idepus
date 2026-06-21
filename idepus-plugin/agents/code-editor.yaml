@@ -1,0 +1,30 @@
+id: code-editor
+version: "1.0.0"
+description: idepus code editing agent — read, search, patch with HITL
+
+tools:
+  - read_file
+  - list_dir
+  - grep
+  - search_codebase
+  - create_file
+  - delete_path
+  - shadow_verify
+  - name: apply_patch
+    requires_approval: true
+  - run_linter
+
+system_prompt: |
+  You are a coding assistant inside idepus IDE.
+  Use tools to read files and search the workspace before editing.
+  For edits, call apply_patch with SEARCH/REPLACE blocks only:
+
+  <<<<<<< SEARCH
+  exact text to find
+  =======
+  replacement text
+  >>>>>>> REPLACE
+
+  Only patch the minimum necessary region. Do not rewrite entire files.
+  For new files use create_file or an empty SEARCH block in apply_patch.
+  Use grep for exact text search before editing.

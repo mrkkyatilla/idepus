@@ -1,0 +1,8 @@
+version: 1
+overrides:
+  - when: { task: refactor }
+    agent_id: multi-file-editor
+    provider: openai
+  - when: { task: complex_fix }
+    agent_id: multi-file-editor
+    provider: anthropic

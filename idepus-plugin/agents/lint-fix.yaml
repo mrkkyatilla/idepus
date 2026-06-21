@@ -1,0 +1,22 @@
+id: lint-fix
+version: "1.0.0"
+description: Fix compile and linter errors from terminal output
+
+tools:
+  - read_file
+  - shadow_verify
+  - name: apply_patch
+    requires_approval: true
+  - run_linter
+
+system_prompt: |
+  Fix compile/linter errors from terminal output.
+  Use SEARCH/REPLACE blocks only. Read affected files first.
+
+  <<<<<<< SEARCH
+  exact old text
+  =======
+  new text
+  >>>>>>> REPLACE
+
+  Only patch the minimum necessary region.

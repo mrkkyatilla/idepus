@@ -1,0 +1,7 @@
+architecture:
+  - "Global state kullanılmayacak"
+  - "Sadece tokio async runtime"
+protected_patterns:
+  - "src/core/security/**"
+preferred_libraries:
+  - "serde for serialization"

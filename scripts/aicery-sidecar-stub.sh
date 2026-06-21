@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Minimal Aicery sidecar stub for release bundle smoke tests.
+set -euo pipefail
+PORT="${PORT:-8000}"
+exec python3 - "$PORT" <<'PY'
+import json
+import os
+import sys
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+PORT = int(sys.argv[1])
+API_KEY = os.environ.get("API_KEY", "dev")
+
+class Handler(BaseHTTPRequestHandler):
+    def _ok(self, body):
+        data = json.dumps(body).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+
+    def _auth(self):
+        return self.headers.get("X-API-Key") == API_KEY
+
+    def do_GET(self):
+        if not self._auth():
+            self.send_response(401)
+            self.end_headers()
+            return
+        if self.path in ("/health", "/v1/agents"):
+            agents = [
+                {"id": "code-editor"},
+                {"id": "lint-fix"},
+                {"id": "multi-file-editor"},
+                {"id": "echo"},
+            ]
+            if self.path == "/health":
+                self._ok({"status": "ok"})
+            else:
+                self._ok({"agents": agents})
+            return
+        if self.path.startswith("/v1/runs/"):
+            run_id = self.path.split("/")[-1]
+            self._ok({
+                "id": run_id,
+                "status": "completed",
+                "agent_id": "echo",
+                "output_text": "ok",
+            })
+            return
+        self.send_response(404)
+        self.end_headers()
+
+    def do_POST(self):
+        if not self._auth():
+            self.send_response(401)
+            self.end_headers()
+            return
+        length = int(self.headers.get("Content-Length", 0))
+        _ = self.rfile.read(length) if length else b""
+        if self.path == "/v1/runs":
+            self._ok({"id": "stub-run", "status": "completed", "agent_id": "echo"})
+            return
+        self.send_response(404)
+        self.end_headers()
+
+    def log_message(self, *_args):
+        return
+
+HTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
+PY

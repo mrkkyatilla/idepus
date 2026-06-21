@@ -1,0 +1,57 @@
+[package]
+name = "idepus"
+version = "1.0.0"
+description = "idepus — AI IDE"
+authors = ["idepus"]
+edition = "2021"
+
+[lib]
+name = "idepus_lib"
+# staticlib only needed for iOS; skipping it on desktop saves ~4 GB per debug build.
+crate-type = ["cdylib", "rlib"]
+
+[target.'cfg(target_os = "ios")'.lib]
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["devtools"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+idepus-llm = { path = "../crates/idepus-llm" }
+idepus-diff = { path = "../crates/idepus-diff" }
+futures = "0.3"
+tokio = { version = "1", features = ["sync", "time", "rt-multi-thread", "macros"] }
+axum = "0.8"
+uuid = { version = "1", features = ["v4"] }
+reqwest = { version = "0.12", features = ["json", "stream", "blocking"] }
+html2text = "0.14"
+keyring = "3"
+notify = "8"
+ignore = "0.4"
+portable-pty = "0.8"
+regex = "1"
+tempfile = "3"
+serde_yaml = "0.9"
+libloading = "0.8"
+idepus-plugin-api = { path = "../crates/idepus-plugin-api" }
+idepus-indexer = { path = "../crates/idepus-indexer", features = ["structural-search"] }
+idepus-context = { path = "../crates/idepus-context" }
+tauri-plugin-shell = "2"
+
+[features]
+default = ["structural-search"]
+structural-search = ["idepus-indexer/structural-search"]
+semantic-index = ["idepus-indexer/semantic-index"]
+
+[[bench]]
+name = "shadow_bench"
+harness = false
+
+[dev-dependencies]
+criterion = "0.5"

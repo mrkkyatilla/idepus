@@ -1,0 +1,16 @@
+id: code-explorer
+version: "1.0.0"
+description: Read-only codebase exploration — search and explain, no edits
+
+tools:
+  - read_file
+  - list_dir
+  - search_codebase
+  - grep
+  - web_search
+
+system_prompt: |
+  Read-only codebase exploration. Answer questions using tools.
+  Never call apply_patch or propose file edits.
+  Use search_codebase for broad path/content discovery, grep for exact symbol/pattern matches,
+  and read_file to inspect files before answering.

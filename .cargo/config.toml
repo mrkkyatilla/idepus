@@ -1,0 +1,6 @@
+[env]
+PROTOC = { value = ".tools/protoc/bin/protoc", relative = true }
+
+[build]
+# Keep workspace + `tauri dev` artifacts in one place (avoids src-tauri/target duplicate).
+target-dir = "target"

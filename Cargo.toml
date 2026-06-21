@@ -1,0 +1,11 @@
+[workspace]
+members = [
+    "src-tauri",
+    "crates/idepus-llm",
+    "crates/idepus-diff",
+    "crates/idepus-plugin-api",
+    "crates/idepus-plugin-gitignore",
+    "crates/idepus-indexer",
+    "crates/idepus-context",
+]
+resolver = "2"

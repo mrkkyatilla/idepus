@@ -1,0 +1,229 @@
+@import "katex/dist/katex.min.css";
+
+.md-body {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.md-body--compact {
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.md-body p,
+.md-body .chat-paragraph {
+  margin: 0.35em 0;
+}
+
+.md-body h1,
+.md-body h2,
+.md-body h3,
+.md-body h4,
+.md-body .chat-heading {
+  margin: 0.75em 0 0.35em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.md-body h1 { font-size: 1.25em; }
+.md-body h2 { font-size: 1.12em; }
+.md-body h3 { font-size: 1.05em; }
+
+.md-body ul,
+.md-body ol {
+  margin: 0.35em 0;
+  padding-left: 1.4em;
+}
+
+.md-body li {
+  margin: 0.15em 0;
+}
+
+.md-body blockquote {
+  margin: 0.5em 0;
+  padding: 0.25em 0.75em;
+  border-left: 3px solid var(--accent);
+  color: var(--text-muted);
+}
+
+.md-body table {
+  border-collapse: collapse;
+  margin: 0.5em 0;
+  font-size: 11px;
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
+.md-body th,
+.md-body td {
+  border: 1px solid var(--border-subtle);
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.md-body th {
+  background: var(--bg-elevated);
+  font-weight: 600;
+}
+
+.md-body a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.md-body a:hover {
+  text-decoration: underline;
+}
+
+.md-body strong {
+  font-weight: 600;
+}
+
+.md-body code,
+.md-body .chat-inline-code,
+.md-body .incremark-inline-code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--bg);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+.md-code-block,
+.incremark-code-block.md-code-block {
+  margin: 0.5em 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.incremark-code-block-header,
+.md-code-block__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 4px 8px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 10px;
+}
+
+.md-code-block__lang,
+.incremark-code-language {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-transform: lowercase;
+}
+
+.md-code-block__copy,
+.md-code-block__toggle {
+  font-size: 10px;
+  padding: 2px 6px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.md-code-block__copy:hover,
+.md-code-block__toggle:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.md-code-block pre,
+.md-body .chat-code-block {
+  margin: 0;
+  padding: var(--space-2);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.45;
+  background: transparent;
+}
+
+.md-code-block--collapsible[data-collapsed="true"] pre {
+  max-height: 8.5em;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, black 60%, transparent);
+}
+
+.md-code-block--collapsible[data-collapsed="false"] pre {
+  max-height: none;
+  mask-image: none;
+}
+
+.md-mermaid {
+  margin: 0.5em 0;
+  padding: var(--space-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  overflow-x: auto;
+}
+
+.md-mermaid--streaming {
+  opacity: 0.7;
+}
+
+.md-mermaid__loading {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.md-mermaid__error {
+  font-size: 11px;
+  color: var(--danger, #e06c75);
+  margin: 0 0 0.5em;
+}
+
+.md-mermaid__fallback {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  white-space: pre-wrap;
+  color: var(--text-muted);
+}
+
+.md-body .katex-display {
+  margin: 0.5em 0;
+  overflow-x: auto;
+}
+
+.chat-message-body.md-body {
+  min-width: 0;
+}
+
+.chat-stream-cursor {
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--accent);
+}
+
+.chat-message--streaming .chat-stream-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.md-diff-excerpt {
+  margin: 0.35em 0 0;
+  padding: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.4;
+  background: var(--bg);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  color: var(--text-muted);
+}

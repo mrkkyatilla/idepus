@@ -1,0 +1,7 @@
+[package]
+name = "idepus-context"
+version = "0.1.0"
+edition = "2021"
+description = "Structure-aware patch validation for idepus"
+
+[dependencies]

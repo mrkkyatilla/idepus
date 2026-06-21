@@ -1,0 +1,17 @@
+pub mod aicery;
+pub mod autocomplete;
+pub mod chat_sessions;
+pub mod config;
+pub mod diff;
+pub mod file;
+pub mod fs_ops;
+pub mod index;
+pub mod llm;
+pub mod memory;
+pub mod plan;
+pub mod research;
+pub mod session;
+pub mod shadow;
+pub mod telemetry;
+pub mod terminal;
+pub mod workspace;

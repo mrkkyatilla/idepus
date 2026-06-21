@@ -1,0 +1,9 @@
+runtime_url: http://localhost:8000
+api_key: dev
+
+# Plugin bridge (set when running Aicery with idepus-plugin):
+# export PLUGIN_PATHS=/path/to/idepus/idepus-plugin
+# export IDEPUS_BRIDGE_URL=http://127.0.0.1:17373
+# export IDEPUS_BRIDGE_TOKEN=<from idepus get_bridge_info>
+# export USE_MOCK_PROVIDER=true
+# export HITL_ENABLED=true

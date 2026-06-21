@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>idepus</title>
+    <script type="module" src="/src/main.ts" defer></script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="titlebar">
+        <div class="titlebar-left">
+          <span class="brand">idepus</span>
+          <span id="workspace-title" class="titlebar-breadcrumb">No folder open</span>
+        </div>
+        <div class="titlebar-actions">
+          <button
+            id="btn-agent-panel"
+            type="button"
+            class="btn btn-ghost pill-toggle"
+            title="Toggle agent panel"
+          >
+            Agent
+          </button>
+          <button id="btn-open-folder" type="button" class="btn btn-secondary">
+            Open Folder
+          </button>
+          <button id="btn-save" type="button" class="btn btn-ghost">Save</button>
+          <button id="btn-settings" type="button" class="btn btn-ghost" title="Settings">
+            Settings
+          </button>
+        </div>
+      </header>
+      <div class="workspace">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main class="editor-pane">
+          <div id="tab-bar" class="tab-bar" hidden></div>
+          <div class="editor-stack">
+            <div id="editor" class="editor-host"></div>
+            <div id="terminal-resizer" class="terminal-resizer" hidden></div>
+            <div id="terminal-panel" class="terminal-panel" hidden>
+              <div class="terminal-panel-header">
+                <span class="terminal-panel-title">Terminal</span>
+                <span id="terminal-cwd" class="terminal-cwd" title="Working directory"></span>
+                <button
+                  id="terminal-close"
+                  type="button"
+                  class="btn btn-ghost btn-icon"
+                  title="Hide terminal"
+                >
+                  ×
+                </button>
+              </div>
+              <div id="terminal-host" class="terminal-host"></div>
+            </div>
+          </div>
+        </main>
+        <div class="agent-stack">
+          <aside id="plan-panel" class="plan-panel" hidden></aside>
+          <div id="plan-panel-resizer" class="plan-panel-resizer" hidden></div>
+          <aside id="agent-panel" class="agent-panel"></aside>
+        </div>
+      </div>
+      <footer class="statusbar">
+        <span id="status-message">Ready</span>
+        <div id="diff-review-bar" class="diff-review-bar" hidden>
+          <span id="diff-review-label" class="diff-review-label"></span>
+          <button
+            id="diff-prev"
+            type="button"
+            class="btn btn-ghost btn-sm btn-icon"
+            title="Previous hunk (Alt+↑)"
+          >
+            ◀
+          </button>
+          <button
+            id="diff-next"
+            type="button"
+            class="btn btn-ghost btn-sm btn-icon"
+            title="Next hunk (Alt+↓)"
+          >
+            ▶
+          </button>
+          <button id="diff-apply" type="button" class="btn btn-primary btn-sm">Apply</button>
+          <button id="diff-cancel" type="button" class="btn btn-ghost btn-sm">Reject</button>
+        </div>
+        <button id="stream-cancel" type="button" class="btn btn-ghost btn-sm" hidden>
+          Cancel stream
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>
